@@ -5,46 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <main>
+      <video class="video-player"></video>
+      <canvas></canvas>
+    </main>  
+
     <button>Detect faces</button>
-    <img id="image" crossorigin="anonymous" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80">
+    <!-- <img id="image" crossorigin="anonymous" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80"> -->
     <section></section>
 
-
-<script>
-
-const image = document.getElementById('image');
-const button = document.querySelector('button');
-const section = document.querySelector('section');
-
-
-
-function detect() {
-  
-  console.log('yeap!');
-  var faceDetector = new FaceDetector();
-
-  faceDetector.detect(image)
-    .then(faces => faces.forEach(face => {
-      let arrayFromLandmarks = face.landmarks;
-        
-      /* section.innerHTML = `<p>${face.landmarks[0].type}</p>` */
-      section.innerHTML = arrayFromLandmarks.map(landmark => {
-          return `<p>${landmark.type}</p>`;
-      }).join('')
-      console.log(face);
-      }) 
-    )
-    .catch((e) => {
-      console.error('ops!');
-    })
-}
-
-
-button.addEventListener('click', detect);
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
