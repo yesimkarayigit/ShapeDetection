@@ -18,42 +18,42 @@ function getVideo() {
   });
 }
 
-
-
 function detect() {
+
   const width = video.videoWidth;
   const height = video.videoHeight;
-    canvas.width = width;
-    canvas.height = height;
+  canvas.width = width;
+  canvas.height = height;
 
-    context.clearRect(0, 0, width, height);
+  context.clearRect(0, 0, width, height);
+  context.drawImage(video, 0, 0, width, height);
 
-    context.drawImage(video, 0, 0, width, height);
 
-
-    context.strokeStyle = '#ffeb3b';
-    context.fillStyle = '#ffeb3b';
-    context.font = '16px Mononoki';
-    context.lineWidth = 5;
+  context.strokeStyle = '#ffeb3b';
+  context.fillStyle = '#ffeb3b';
+  context.font = '16px Mononoki';
+  context.lineWidth = 5;
   
   console.log('yeap!');
   var faceDetector = new FaceDetector();
 
   faceDetector.detect(video)
-    .then(faces => faces.forEach(face => {
-      let arrayFromLandmarks = face.landmarks;
-      section.innerHTML = arrayFromLandmarks.map(landmark => {
-          return `<p>${landmark.type}</p>`;
-      }).join('')
-      console.log(face);
-      
+    .then(faces => faces.forEach(face => {     
       const { top, left, width, height } = face.boundingBox;
       context.beginPath();
       context.rect(left, top, width, height);
       context.stroke();
       context.fillText('face detected', left + 5, top - 8);
-      }) 
-    )
+      
+      if(face.landmarks) {
+        face.landmarks.forEach( () => {
+          let arrayFromLandmarks = face.landmarks;
+          section.innerHTML = arrayFromLandmarks.map(landmark => {
+              return `<p>${landmark.type}</p>`;
+          }).join('')
+        }) 
+      }
+    }))
     .catch((e) => {
       console.error('ops!');
     })
