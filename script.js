@@ -61,5 +61,4 @@ function detectFace() {
     requestAnimationFrame(detectFace);
 }
 
-window.requestAnimationFrame(detectFace);
 video.addEventListener('play', detectFace); 
