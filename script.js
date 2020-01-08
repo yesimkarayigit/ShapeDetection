@@ -21,17 +21,18 @@ const mediaStream =  navigator.mediaDevices.getUserMedia(constraints)
 
 function detectFace() {
 
+  context.strokeStyle = '#ffeb3b';
+  context.fillStyle = '#ffeb3b';
+  context.font = '30px Mononoki';
+  context.lineWidth = 5;
+  
   const faceDetector = new FaceDetector({fastMode: true});
 
   faceDetector.detect(video)
     .then((faces) => {
+
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    
-      context.strokeStyle = '#ffeb3b';
-      context.fillStyle = '#ffeb3b';
-      context.font = '30px Mononoki';
-      context.lineWidth = 5;
       
       faces.forEach(face => {     
       const { top, left, width, height } = face.boundingBox;
@@ -59,6 +60,8 @@ function detectFace() {
       console.error('ops!');
     })
     requestAnimationFrame(detectFace);
+  
+    
 }
 
 video.addEventListener('play', detectFace); 
