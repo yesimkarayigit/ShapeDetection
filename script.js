@@ -1,4 +1,3 @@
-/* const video = document.querySelector('.video-player'); */
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 
@@ -63,12 +62,10 @@ function detection() {
 
   function rendering() {
     requestAnimationFrame(rendering);
-    if (true) {
-      detectFace();
-    }
   }
 
   rendering();
+  setInterval(detectFace, 100);
 }
 
 video.addEventListener('play', detection); 
