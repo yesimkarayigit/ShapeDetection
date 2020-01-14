@@ -17,12 +17,9 @@ const mediaStream =  navigator.mediaDevices.getUserMedia(constraints)
 });
 
 
-function detection() {
+let faces = [];
 
-  context.strokeStyle = '#ffeb3b';
-  context.fillStyle = '#ffeb3b';
-  context.font = '30px Mononoki';
-  context.lineWidth = 5;
+function detection() {
   
   const faceDetector = new FaceDetector({fastMode: true});
 
@@ -61,6 +58,14 @@ function detection() {
   }
 
   function rendering() {
+
+    context.strokeStyle = '#ffeb3b';
+    context.fillStyle = '#ffeb3b';
+    context.font = '30px Mononoki';
+    context.lineWidth = 5;
+
+    faces;
+
     requestAnimationFrame(rendering);
   }
 
