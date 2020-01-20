@@ -25,10 +25,13 @@ function detection() {
 
   function detectFace() {
 
+    context.strokeStyle = '#ffeb3b';
+    context.fillStyle = '#ffeb3b';
+    context.font = '30px Mononoki';
+    context.lineWidth = 5;
+
     faceDetector.detect(video)
     .then((faces) => {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
       
       faces.forEach(face => {    
         const { top, left, width, height } = face.boundingBox;
@@ -59,12 +62,8 @@ function detection() {
 
   function rendering() {
 
-    context.strokeStyle = '#ffeb3b';
-    context.fillStyle = '#ffeb3b';
-    context.font = '30px Mononoki';
-    context.lineWidth = 5;
-
-    faces;
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     requestAnimationFrame(rendering);
   }
