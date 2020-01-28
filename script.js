@@ -16,8 +16,8 @@ const mediaStream =  navigator.mediaDevices.getUserMedia(constraints)
   console.error(`OH NO!!!`, err);
 });
 
-
 let faces = [];
+
 
 function detection() {
   
@@ -32,8 +32,10 @@ function detection() {
 
     faceDetector.detect(video)
     .then((faces) => {
-      
-      faces.forEach(face => {    
+
+      faces.forEach(face => {
+        faces.push(face);
+        
         const { top, left, width, height } = face.boundingBox;
         context.beginPath();
         context.rect(left, top, width, height);
@@ -56,7 +58,7 @@ function detection() {
       })
     })
     .catch((e) => {
-      console.error('ops!');
+      console.error(e);
     })
   }
 
