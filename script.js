@@ -16,8 +16,7 @@ const mediaStream =  navigator.mediaDevices.getUserMedia(constraints)
   console.error(`OH NO!!!`, err);
 });
 
-let faces = [];
-
+let facesList = [];
 
 function detection() {
   
@@ -32,29 +31,8 @@ function detection() {
 
     faceDetector.detect(video)
     .then((faces) => {
-
       faces.forEach(face => {
-        faces.push(face);
-        
-        const { top, left, width, height } = face.boundingBox;
-        context.beginPath();
-        context.rect(left, top, width, height);
-        context.stroke();
-        context.fillText('face', left + 1, top - 6);
-        
-        if(face.landmarks) {
-          face.landmarks.forEach( (landmark) => {
-            if(landmark.type === 'eye') {
-              context.beginPath();
-              context.fill();
-              context.fillText("🌸", landmark.locations[0].x, landmark.locations[0].y);
-            } else {
-              context.beginPath();
-              context.fill();
-              context.fillText("🔥", landmark.locations[0].x, landmark.locations[0].y);
-            }
-          })
-        }
+        facesList.push(face);
       })
     })
     .catch((e) => {
@@ -67,6 +45,27 @@ function detection() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+    facesList.forEach(face => {
+      const { top, left, width, height } = face.boundingBox;
+      context.beginPath();
+      context.rect(left, top, width, height);
+      context.stroke();
+      context.fillText('face', left + 1, top - 6);
+
+      if(face.landmarks) {
+        face.landmarks.forEach( (landmark) => {
+          if(landmark.type === 'eye') {
+            context.beginPath();
+            context.fill();
+            context.fillText("🌸", landmark.locations[0].x, landmark.locations[0].y);
+          } else {
+            context.beginPath();
+            context.fill();
+            context.fillText("🔥", landmark.locations[0].x, landmark.locations[0].y);
+          }
+        })
+      }
+    })
     requestAnimationFrame(rendering);
   }
 
