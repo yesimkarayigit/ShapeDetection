@@ -16,57 +16,57 @@ const mediaStream =  navigator.mediaDevices.getUserMedia(constraints)
   console.error(`OH NO!!!`, err);
 });
 
+const faceDetector = new FaceDetector({fastMode: true});
+
 let facesList = [];
 
-function detection() {
+function detectFace() {
+
+  context.strokeStyle = '#ffeb3b';
+  context.fillStyle = '#ffeb3b';
+  context.font = '30px Mononoki';
+  context.lineWidth = 5;
+
+  faceDetector.detect(video)
+  .then((faces) => {
+    facesList = faces;
+  })
+  .catch((e) => {
+    console.error(e);
+  })
+}
+
+function rendering() {
   
-  const faceDetector = new FaceDetector({fastMode: true});
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-  function detectFace() {
+  facesList.forEach(face => {
+    const { top, left, width, height } = face.boundingBox;
+    context.beginPath();
+    context.rect(left, top, width, height);
+    context.stroke();
+    context.fillText('face', left + 1, top - 6);
 
-    context.strokeStyle = '#ffeb3b';
-    context.fillStyle = '#ffeb3b';
-    context.font = '30px Mononoki';
-    context.lineWidth = 5;
+    if(face.landmarks) {
+      face.landmarks.forEach( (landmark) => {
+        if(landmark.type === 'eye') {
+          context.beginPath();
+          context.fill();
+          context.fillText("🌸", landmark.locations[0].x, landmark.locations[0].y);
+        } else {
+          context.beginPath();
+          context.fill();
+          context.fillText("🔥", landmark.locations[0].x, landmark.locations[0].y);
+        }
+      })
+    }
+  })
+  requestAnimationFrame(rendering);
+}
 
-    faceDetector.detect(video)
-    .then((faces) => {
-      facesList = faces;
-    })
-    .catch((e) => {
-      console.error(e);
-    })
-  }
-
-  function rendering() {
-
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    facesList.forEach(face => {
-      const { top, left, width, height } = face.boundingBox;
-      context.beginPath();
-      context.rect(left, top, width, height);
-      context.stroke();
-      context.fillText('face', left + 1, top - 6);
-
-      if(face.landmarks) {
-        face.landmarks.forEach( (landmark) => {
-          if(landmark.type === 'eye') {
-            context.beginPath();
-            context.fill();
-            context.fillText("🌸", landmark.locations[0].x, landmark.locations[0].y);
-          } else {
-            context.beginPath();
-            context.fill();
-            context.fillText("🔥", landmark.locations[0].x, landmark.locations[0].y);
-          }
-        })
-      }
-    })
-    requestAnimationFrame(rendering);
-  }
-
+function detection() {
+  detectFace();
   rendering();
   setInterval(detectFace, 100);
 }
