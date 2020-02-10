@@ -1,20 +1,24 @@
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
-
 const video = document.createElement('video');
 const constraints = { video: true, audio: false };
-const mediaStream =  navigator.mediaDevices.getUserMedia(constraints)
-.then(localMediaStream => {
-  video.srcObject = localMediaStream;
-  video.autoplay = true;
-  video.onloadedmetadata = () => {
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-  };
-})
-.catch(err => {
-  console.error(`OH NO!!!`, err);
-});
+
+async function videoPlay() {
+  const mediaStream =  await navigator.mediaDevices.getUserMedia(constraints)
+  .then(localMediaStream => {
+    video.srcObject = localMediaStream;
+    video.autoplay = true;
+    video.onloadedmetadata = () => {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+    };
+  })
+  .catch(err => {
+    console.error(`OH NO!!!`, err);
+  });
+}
+
+videoPlay();
 
 const faceDetector = new FaceDetector({fastMode: true});
 
