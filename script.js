@@ -31,7 +31,7 @@ function detection() {
 
     faceDetector.detect(video)
     .then((faces) => {
-      facesList = faces.slice(faces.length - 10);
+      facesList = faces;
     })
     .catch((e) => {
       console.error(e);
