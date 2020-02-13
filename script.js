@@ -3,8 +3,7 @@ const context = canvas.getContext('2d');
 const video = document.createElement('video');
 const constraints = { video: true, audio: false };
 
-async function videoPlay() {
-  const mediaStream =  await navigator.mediaDevices.getUserMedia(constraints)
+const mediaStream =  navigator.mediaDevices.getUserMedia(constraints)
   .then(localMediaStream => {
     video.srcObject = localMediaStream;
     video.autoplay = true;
@@ -16,9 +15,6 @@ async function videoPlay() {
   .catch(err => {
     console.error(`OH NO!!!`, err);
   });
-}
-
-videoPlay();
 
 const faceDetector = new FaceDetector({fastMode: true});
 
@@ -73,6 +69,8 @@ function detection() {
   detectFace();
   rendering();
   setInterval(detectFace, 100);
+  let intervalID = setInterval(detectFace, 100);
+  clearInterval(intervalID);
 }
 
-video.addEventListener('play', detection); 
+video.addEventListener('play', detection);
