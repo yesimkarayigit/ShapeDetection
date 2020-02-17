@@ -68,9 +68,19 @@ function rendering() {
 function detection() {
   detectFace();
   rendering();
-  setInterval(detectFace, 100);
-  let intervalID = setInterval(detectFace, 100);
-  clearInterval(intervalID);
+
+  let intervalID;
+
+  function startCycle() {
+    intervalID = setInterval(detectFace, 100);
+  }
+  startCycle();
+
+  function stopCycle() {
+    clearInterval(intervalID);
+    setTimeout(startCycle, 100);
+  }
+  stopCycle();
 }
 
 video.addEventListener('play', detection);
