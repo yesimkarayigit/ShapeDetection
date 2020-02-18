@@ -64,22 +64,18 @@ function rendering() {
   })
   requestAnimationFrame(rendering);
 }
+  
+let intervalID;
+const startCycle = () => {intervalID = setInterval(detectFace, 100);}
+const stopCycle = ()  => {
+  clearInterval(intervalID);
+  startCycle();
+}
 
 function detection() {
   detectFace();
   rendering();
-
-  let intervalID;
-
-  function startCycle() {
-    intervalID = setInterval(detectFace, 100);
-  }
   startCycle();
-
-  function stopCycle() {
-    clearInterval(intervalID);
-    setTimeout(startCycle, 100);
-  }
   stopCycle();
 }
 
