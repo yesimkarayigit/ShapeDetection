@@ -66,17 +66,12 @@ function rendering() {
 }
   
 let intervalID;
-const startCycle = () => {intervalID = setInterval(detectFace, 100);}
-const stopCycle = ()  => {
-  clearInterval(intervalID);
-  startCycle();
-}
 
 function detection() {
   detectFace();
   rendering();
-  startCycle();
-  stopCycle();
+  intervalID = setInterval(detectFace, 100);
+  clearInterval(intervalID);
 }
 
 video.addEventListener('play', detection);
