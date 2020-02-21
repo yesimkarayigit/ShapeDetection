@@ -36,6 +36,8 @@ function detectFace() {
   })
 }
 
+let animationID;
+
 function rendering() {
   
   context.clearRect(0, 0, canvas.width, canvas.height);
@@ -62,16 +64,16 @@ function rendering() {
       })
     }
   })
-  requestAnimationFrame(rendering);
+  animationID = requestAnimationFrame(rendering);
 }
-  
+
 let intervalID;
 
 function detection() {
-  detectFace();
+  cancelAnimationFrame(animationID);
   rendering();
-  intervalID = setInterval(detectFace, 100);
   clearInterval(intervalID);
+  intervalID = setInterval(detectFace, 100);
 }
 
 video.addEventListener('play', detection);
